@@ -21,21 +21,30 @@ class Prototype
 class ConcretePrototype : public Prototype
 {
   int num;
+
 public:
+  ConcretePrototype() {}
+  ConcretePrototype(const ConcretePrototype& other)
+  {
+    this->num = other.num;
+
+  }
   Prototype* clone()
   {
-    ConcretePrototype* buff = new ConcretePrototype();
-    buff->num = this->num;
-    return buff;
+    return new ConcretePrototype(*this);
   }
-  void call() { cout << "BauBau!!" << endl; }
+  void call()
+  {
+    cout << "BauBau!!";
+    cout << this->num << endl;
+  }
 };
 
 
 int main()
 {
   ConcretePrototype a;
-  ConcretePrototype *b;
+  Prototype *b = a.clone();
   a.call();
   b->call();
 
