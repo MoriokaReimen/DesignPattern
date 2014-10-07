@@ -16,6 +16,7 @@ class Prototype
   public:
     virtual Prototype* clone() = 0;
     virtual void call() = 0;
+    virtual ~Prototype() {}
 };
 
 class ConcretePrototype : public Prototype
@@ -33,20 +34,27 @@ public:
   {
     return new ConcretePrototype(*this);
   }
+  void setNum(int n)
+  {
+    this->num = n;
+  }
   void call()
   {
     cout << "BauBau!!";
     cout << this->num << endl;
   }
+  virtual ~ConcretePrototype() {}
 };
 
 
 int main()
 {
   ConcretePrototype a;
-  Prototype *b = a.clone();
+  a.setNum(3);
   a.call();
+  Prototype *b = a.clone();
   b->call();
 
+  delete b;
   return EXIT_SUCCESS;
 }
