@@ -7,9 +7,11 @@
 #include <iostream>
 #include <cstring>
 #include <cstdlib>
+#include <stack>
 using std::cout;
 using std::endl;
 using std::string;
+using std::stack;
 
 class Product
 {
@@ -35,9 +37,29 @@ public:
   }
 };
 
+template<typename T>
+class LifeTimeManager {
+    stack<T*> store;
+public:
+    void push(T* p)
+    {
+        store.push(p);
+    }
+    ~LifeTimeManager()
+    {
+        while(!store.empty())
+        {
+            if(store.top() != NULL)
+                delete store.top();
+            store.pop();
+        }
+    }
+};
+
 class ConcreteCreator : public Creator
 {
   int count;
+  LifeTimeManager<Product> manager;
 public:
     ConcreteCreator() : count(0)
     {}
@@ -45,7 +67,10 @@ public:
     Product* create()
     {
       this->count++;
-      return new ConcreteProduct;
+
+      Product* p = new ConcreteProduct;
+      manager.push(p);
+      return p;
     }
 
     void factoryMethod()
@@ -67,9 +92,5 @@ int main()
   d = mommy.create();
   d->call();
   mommy.factoryMethod();
-  delete a;
-  delete b;
-  delete c;
-  delete d;
   return EXIT_SUCCESS;
 }
