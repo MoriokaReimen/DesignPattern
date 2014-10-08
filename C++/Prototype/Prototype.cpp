@@ -7,10 +7,30 @@
 #include <iostream>
 #include <cstring>
 #include <cstdlib>
+#include <stack>
 using std::cout;
 using std::endl;
 using std::string;
+using std::stack;
 
+template<typename T>
+class LifeTimeManager {
+    stack<T*> store;
+public:
+    void push(T* p)
+    {
+        store.push(p);
+    }
+    ~LifeTimeManager()
+    {
+        while(!store.empty())
+        {
+            if(store.top() != NULL)
+                delete store.top();
+            store.pop();
+        }
+    }
+};
 class Prototype
 {
   public:
@@ -22,17 +42,19 @@ class Prototype
 class ConcretePrototype : public Prototype
 {
   int num;
+  LifeTimeManager<Prototype> manager;
 
 public:
   ConcretePrototype() {}
   ConcretePrototype(const ConcretePrototype& other)
   {
     this->num = other.num;
-
   }
   Prototype* clone()
   {
-    return new ConcretePrototype(*this);
+    Prototype* p = new ConcretePrototype(*this);
+    manager.push(p);
+    return p;
   }
   void setNum(int n)
   {
@@ -55,6 +77,5 @@ int main()
   Prototype *b = a.clone();
   b->call();
 
-  delete b;
   return EXIT_SUCCESS;
 }
