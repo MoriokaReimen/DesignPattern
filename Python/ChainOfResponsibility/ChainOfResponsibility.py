@@ -76,7 +76,7 @@ class ConcreteHandler2(Handler):
 if __name__ == '__main__':
     handle = ConcreteHandler2()
     handle.request(30)
-    print 
+    print
     handle.request(50)
     print
     handle.request(90)
