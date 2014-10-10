@@ -21,7 +21,6 @@ protected:
 public:
   Component(const string& name) : _name(name) {}
   virtual ~Component() {}
-  virtual void destroy() = 0;
   virtual void show() = 0;
 };
 
@@ -36,7 +35,7 @@ public:
     for(it = children.begin(); it != children.end(); it++)
     {
       cout << "Des" << endl;
-      it->second->destroy();
+      delete it->second;
     }
   };
   void destroy()
@@ -45,8 +44,9 @@ public:
     for(it = children.begin(); it != children.end(); it++)
     {
       cout << "Destroy" << endl;
-      it->second->destroy();
+      delete it->second;
     }
+    delete this;
   };
   void add(Component* child)
   {
@@ -80,10 +80,6 @@ class Leaf:public Component
 {
 public:
   Leaf(const string& name) : Component(name) {}
-  void destroy()
-  {
-    delete this;
-  }
   void show()
   {
     cout << this->_name << endl;
