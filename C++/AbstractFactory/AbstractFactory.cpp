@@ -23,17 +23,27 @@ public:
 class Creator
 {
 public:
-    virtual Product* create() = 0;
     virtual void factoryMethod() = 0;
+    virtual Product* createA() = 0;
+    virtual Product* createB() = 0;
     virtual ~Creator() {}
 };
 
-class ConcreteProduct: public Product
+class ConcreteProductA: public Product
 {
 public:
   void call()
   {
     cout << "Hi!" << endl;
+  }
+};
+
+class ConcreteProductB: public Product
+{
+public:
+  void call()
+  {
+    cout << "Hello!" << endl;
   }
 };
 
@@ -64,11 +74,20 @@ public:
     ConcreteCreator() : count(0)
     {}
 
-    Product* create()
+    Product* createA()
     {
       this->count++;
 
-      Product* p = new ConcreteProduct;
+      Product* p = new ConcreteProductA;
+      manager.push(p);
+      return p;
+    }
+
+    Product* createB()
+    {
+      this->count++;
+
+      Product* p = new ConcreteProductB;
       manager.push(p);
       return p;
     }
@@ -83,13 +102,13 @@ int main()
 {
   ConcreteCreator mommy;
   Product *a, *b, *c, *d;
-  a = mommy.create();
+  a = mommy.createA();
   a->call();
-  b = mommy.create();
+  b = mommy.createB();
   b->call();
-  c = mommy.create();
+  c = mommy.createA();
   c->call();
-  d = mommy.create();
+  d = mommy.createB();
   d->call();
   mommy.factoryMethod();
   return EXIT_SUCCESS;
