@@ -1,5 +1,5 @@
 /*
- * Prototype Pattern
+ * Visitor Pattern
  * Author: Kei Nakata
  * Data: Oct.6.2014
  * Represent an operation to be performed on the elements
