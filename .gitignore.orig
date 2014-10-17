@@ -1,5 +1,8 @@
-# mold for private using
+<<<<<<< HEAD
 C++/DirExample
+*.o
+*.exe
+=======
 # Compiled Object files
 *.slo
 *.lo
@@ -28,3 +31,4 @@ C++/DirExample
 *.exe
 *.out
 *.app
+>>>>>>> 9476115db5c5783d04750ac3235bdb1d91683481
