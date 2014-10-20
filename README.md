@@ -10,6 +10,8 @@ MoriokaReiman(email:menschenjager.mark.neun@gmail.com)
 Dependancy:
 gcc ver. 4.8.2
 Python2.7.5
+cppcheck
+astyle
 
 Reference:
 Design Patterns: Elements of Reusable Object-Oriented Software

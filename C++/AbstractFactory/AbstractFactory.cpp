@@ -1,8 +1,9 @@
 /*
- * Prototype Pattern
+ * AbstractFactory Pattern
  * Author: Kei Nakata
  * Data: Oct.6.2014
- *
+ * Provide an interface for creating families of related or dependent objects
+ * without specifying their concrete classes
  */
 #include <iostream>
 #include <cstring>
