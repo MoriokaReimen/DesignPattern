@@ -1,11 +1,8 @@
 /*
- * Chain of Responsibility pattern
- * Author: Kei Nakata
+ * Meyers Singleton with dead reference detect
+ * Author: reimen
  * Data: Oct.6.2014
- * Avoid coupling the sender of a request to its receiver by giving
- * more than one object a chance to handle the request. Chain the
- * receiving objects and pass the request along the chain until an
- * object handles it.
+ *
  */
 #include <iostream>
 #include <cstring>
@@ -35,10 +32,10 @@ public:
   void request(int num)
   {
     if(num % 5 == 0)
-      {
-        cout << num << " is multiple of 5." << endl;
-        cout << num << " is multiple of 30." << endl;
-      }
+    {
+      cout << num << " is multiple of 5." << endl;
+      cout << num << " is multiple of 30." << endl;
+    }
     else
       cout << num << " is not multiple of 5." << endl;
   }
@@ -51,12 +48,12 @@ public:
   void request(int num)
   {
     if(num % 3 == 0)
-      {
-        cout << num << " is multiple of 3." << endl;
-        Handler* next = new ConcreteHandler5();
-        next->request(num);
-        delete next;
-      }
+    {
+      cout << num << " is multiple of 3." << endl;
+      Handler* next = new ConcreteHandler5();
+      next->request(num);
+      delete next;
+    }
     else
       cout << num << " is not multiple of 3." << endl;
   }
@@ -69,12 +66,12 @@ public:
   void request(int num)
   {
     if(num % 2 == 0)
-      {
-        cout << num << " is multiple of 2." << endl;
-        Handler* next = new ConcreteHandler3();
-        next->request(num);
-        delete next;
-      }
+    {
+      cout << num << " is multiple of 2." << endl;
+      Handler* next = new ConcreteHandler3();
+      next->request(num);
+      delete next;
+    }
     else
       cout << num << " is not multiple of 2." << endl;
   }
