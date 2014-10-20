@@ -50,30 +50,27 @@ public:
   {
     cout << "Hello This is Colleague" << endl;
     if(_mediator != NULL)
-      {
-        _mediator -> colleagueChanged();
-      }
+    {
+      _mediator -> colleagueChanged();
+    }
     else
-      {
-        cout << "There is no mediator" << endl;
-      }
+    {
+      cout << "There is no mediator" << endl;
+    }
   }
 };
 
 class ConcreteMediator : Mediator
 {
 public:
-  virtual ~ConcreteMediator()
-  {
-    delete _colleague;
-  }
+  virtual ~ConcreteMediator() { delete _colleague; }
   void createColleague()
   {
     if(_colleague == NULL)
-      {
-        _colleague = new ConcreteColleague;
-        _colleague -> setMediator(this);
-      }
+    {
+      _colleague = new ConcreteColleague;
+      _colleague -> setMediator(this);
+    }
 
   }
   void colleagueChanged()
@@ -83,13 +80,13 @@ public:
   void zap()
   {
     if(_colleague != NULL)
-      {
-        _colleague->controlColleague();
-      }
+    {
+      _colleague->controlColleague();
+    }
     else
-      {
-        cout << "No colleague" << endl;
-      }
+    {
+      cout << "No colleague" << endl;
+    }
   }
 };
 
