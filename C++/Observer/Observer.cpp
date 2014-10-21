@@ -1,8 +1,10 @@
 /*
- * Observer
+ * Observer Pattern
  * Author: reimen
  * Data: Oct.15.2014
- *
+ * Define a one-to-many dependency between objects so that when one
+ * object changes state, all its dependents are notified and updated
+ * automatically.
  */
 #include <iostream>
 #include <cstdlib>
@@ -54,12 +56,12 @@ public:
   }
   virtual void notifyObserver()
   {
-    for(set<Observer*>::iterator it = _observers.begin(); it != _observers.end(); it++)
-    {
-      const type_info& id = typeid(*this);
-      string event = id.name();
-      (*it)->update(event);
-    }
+    for(set<Observer*>::iterator it = _observers.begin(); it != _observers.end(); ++it)
+      {
+        const type_info& id = typeid(*this);
+        string event = id.name();
+        (*it)->update(event);
+      }
   }
 };
 
