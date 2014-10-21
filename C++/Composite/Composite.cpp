@@ -1,8 +1,10 @@
 /*
- * Prototype Pattern
+ * Composite Pattern
  * Author: Kei Nakata
  * Data: Oct.6.2014
- *
+ * Compose objects into tree structures to represent part-whole
+ * hierarchies. Composite lets clients treat individual objects
+ * and composition of objects unifomly.
  */
 #include <iostream>
 #include <cstring>
@@ -32,46 +34,26 @@ public:
   ~Composite()
   {
     map<int, Component*>::iterator it;
-    for(it = children.begin(); it != children.end(); it++)
-    {
-      cout << "Des" << endl;
-      delete it->second;
-    }
+    for(it = children.begin(); it != children.end(); ++it)
+      {
+        delete it->second;
+      }
   };
-  void destroy()
-  {
-    map<int, Component*>::iterator it;
-    for(it = children.begin(); it != children.end(); it++)
-    {
-      cout << "Destroy" << endl;
-      delete it->second;
-    }
-    delete this;
-  };
+
   void add(Component* child)
   {
     static int index = 0;
     children.insert(pair<int, Component*>(index, child));
-    index++;
-  }
-  Component* getChild(int i)
-  {
-    return children[i];
-  }
-
-  void remove(int index)
-  {
-    map<int, Component*>::iterator it = children.find(index);
-    children.erase(it);
+    ++index;
   }
 
   void show()
   {
     map<int, Component*>::iterator it = children.begin();
-    for(it = children.begin(); it != children.end(); it++)
-    {
-      it->second->show();
-    }
+    for(it = children.begin(); it != children.end(); ++it)
+      {
+        it->second->show();
+      }
   }
 
 };
