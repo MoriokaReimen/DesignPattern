@@ -14,66 +14,67 @@ using std::string;
 class Implementor
 {
 public:
-    virtual ~Implementor() {}
-    virtual void operation() {}
+  virtual ~Implementor() {}
+  virtual void operation() {}
 };
 
 class ConcreteImplementorA : public Implementor
 {
 
 public:
-    void operation()
-    {
-        cout << "Hello" << endl;
-    }
+  void operation()
+  {
+    cout << "Hello" << endl;
+  }
 };
 
 class ConcreteImplementorB : public Implementor
 {
 
 public:
-    void operation()
-    {
-        cout << "Hi" << endl;
-    }
+  void operation()
+  {
+    cout << "Hi" << endl;
+  }
 };
 
 class Abstraction
 {
 protected:
-    Implementor *_imp;
+  Implementor *_imp;
 public:
-    virtual void operation() = 0;
-    virtual ~Abstraction() {}
+  virtual void operation() = 0;
+  virtual ~Abstraction() {}
 };
 
 class RedefinedAbstraction : public Abstraction
 {
 
 public:
-    RedefinedAbstraction(char ch)
-    {
-        if(ch == 'a')
-            _imp = new ConcreteImplementorA;
-        else {
-            _imp = new ConcreteImplementorB;
-        }
-    }
-    void operation()
-    {
-        _imp -> operation();
-    }
-    ~RedefinedAbstraction()
-    {
-        delete _imp;
-    }
+  RedefinedAbstraction(char ch)
+  {
+    if(ch == 'a')
+      _imp = new ConcreteImplementorA;
+    else
+      {
+        _imp = new ConcreteImplementorB;
+      }
+  }
+  void operation()
+  {
+    _imp -> operation();
+  }
+  ~RedefinedAbstraction()
+  {
+    delete _imp;
+  }
 };
 
 int main()
 {
-    RedefinedAbstraction a('a'), b('b');
-    a.operation();
-    b.operation();
+  RedefinedAbstraction a('a'), b('b');
+  a.operation();
+  b.operation();
 
   return EXIT_SUCCESS;
 }
