@@ -2,7 +2,7 @@
  * Flyweight pattern
  * Author: reimen
  * Data: Oct.14.2014
- * Use sharing to support large numbers of fine-grained objects efficiently
+ * Use sharing to support large numbers of fine-grained objects efficiently.
  */
 #include <iostream>
 #include <cstdlib>
@@ -40,7 +40,7 @@ protected:
 public:
   ~FlyweightFactory()
   {
-    for(map<int, Flyweight*>::iterator it = _instances.begin(); it != _instances.end(); it++)
+    for(map<int, Flyweight*>::iterator it = _instances.begin(); it != _instances.end(); ++it)
       delete it->second;
   }
   Flyweight* getInstance(int key)
