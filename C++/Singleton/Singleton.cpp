@@ -2,7 +2,8 @@
  * Meyers Singleton with dead reference detect
  * Author: reimen
  * Data: Oct.6.2014
- *
+ * Ensure a class only has one instance, and provide a global point
+ * of access to it.
  */
 #include <iostream>
 #include <cstring>
@@ -21,7 +22,10 @@ class Singleton
   Singleton() {} //Prevent clients from creating a new singleton
   Singleton(const Singleton& other) {} //Prevent Clients from creating
   Singleton &operator=(const Singleton &rhs); //Prevent Clients from copy
-  ~Singleton() { destroyed_ = true; } // Prevent destruction
+  ~Singleton()
+  {
+    destroyed_ = true;  // Prevent destruction
+  }
 
   string msg_;
 public:

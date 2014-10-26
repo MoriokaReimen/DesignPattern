@@ -1,8 +1,11 @@
 /*
  * Template Method Pattern
  * Author: Kei Nakata
- * Data: Oct.6.2014
- *
+ * Date: Oct.6.2014
+ * Define the skeleton of an algorithm in an operation, deferring some
+ * steps to sub classes. Template Method lets subclasses redefine
+ * certain steps of an algorithm without changing the algorithm's
+ * structure.
  */
 #include <iostream>
 #include <cstring>

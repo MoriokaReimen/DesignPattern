@@ -2,7 +2,8 @@
  * State pattern
  * Author: reimen
  * Data: Oct.14.2014
- *
+ * Allow an object to alter its behavior when its internal state
+ * changes. The object will appear to change its class.
  */
 #include <iostream>
 #include <cstdlib>
@@ -12,7 +13,7 @@ using std::endl;
 class State
 {
 public:
-  virtual ~State(){}
+  virtual ~State() {}
   virtual void operation() = 0;
 };
 

@@ -2,41 +2,41 @@
  * Prototype Pattern
  * Author: Kei Nakata
  * Data: Oct.6.2014
- *
+ * Specify the kinds of objects to create using a prototypical
+ * instance, and create new objects by copying this prototype.
  */
 #include <iostream>
-#include <cstring>
 #include <cstdlib>
 #include <stack>
 using std::cout;
 using std::endl;
-using std::string;
 using std::stack;
 
 template<typename T>
-class LifeTimeManager {
-    stack<T*> store;
+class LifeTimeManager
+{
+  stack<T*> store;
 public:
-    void push(T* p)
-    {
-        store.push(p);
-    }
-    ~LifeTimeManager()
-    {
-        while(!store.empty())
-        {
-            if(store.top() != NULL)
-                delete store.top();
-            store.pop();
-        }
-    }
+  void push(T* p)
+  {
+    store.push(p);
+  }
+  ~LifeTimeManager()
+  {
+    while(!store.empty())
+      {
+        if(store.top() != NULL)
+          delete store.top();
+        store.pop();
+      }
+  }
 };
 class Prototype
 {
-  public:
-    virtual Prototype* clone() = 0;
-    virtual void call() = 0;
-    virtual ~Prototype() {}
+public:
+  virtual Prototype* clone() = 0;
+  virtual void call() = 0;
+  virtual ~Prototype() {}
 };
 
 class ConcretePrototype : public Prototype
@@ -45,10 +45,9 @@ class ConcretePrototype : public Prototype
   LifeTimeManager<Prototype> manager;
 
 public:
-  ConcretePrototype() {}
-  ConcretePrototype(const ConcretePrototype& other)
+  ConcretePrototype(): num(0), manager() {}
+  ConcretePrototype(const ConcretePrototype& other) : num(other.num), manager()
   {
-    this->num = other.num;
   }
   Prototype* clone()
   {

@@ -1,8 +1,10 @@
 /*
- * Template Method Pattern
+ * Builder Pattern
  * Author: Kei Nakata
  * Data: Oct.6.2014
- *
+ * Separate the construction of a complex object from its
+ * representation so that the same construction process can create
+ * different representations.
  */
 #include <iostream>
 #include <cstdlib>
@@ -12,22 +14,23 @@ using std::endl;
 using std::stack;
 
 template<typename T>
-class LifeTimeManager {
-    stack<T*> store;
+class LifeTimeManager
+{
+  stack<T*> store;
 public:
-    void push(T* p)
-    {
-        store.push(p);
-    }
-    ~LifeTimeManager()
-    {
-        while(!store.empty())
-        {
-            if(store.top() != NULL)
-                delete store.top();
-            store.pop();
-        }
-    }
+  void push(T* p)
+  {
+    store.push(p);
+  }
+  ~LifeTimeManager()
+  {
+    while(!store.empty())
+      {
+        if(store.top() != NULL)
+          delete store.top();
+        store.pop();
+      }
+  }
 };
 
 class Product
@@ -44,7 +47,7 @@ class Builder
 protected:
   LifeTimeManager<Product> manager;
 public:
-  virtual ~Builder(){}
+  virtual ~Builder() {}
   virtual Product* build() = 0;
 };
 
@@ -63,7 +66,7 @@ public:
 class Director
 {
   ConcreteBuilder builder;
-  public:
+public:
   Product* create()
   {
     return builder.build();

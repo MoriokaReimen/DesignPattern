@@ -1,8 +1,11 @@
 /*
  * Mediator
  * Author: reimen
- * Data: Oct.15.2014
- *
+ * Date: Oct.15.2014
+ * Define an object that encapsulates how a set of objects interact.
+ * Mediator promotes loose coupling by keeping objects from
+ * referring to each other explicitly, and it lets you vary their
+ * interaction independently.
  */
 #include <iostream>
 #include <cstdlib>
@@ -47,27 +50,30 @@ public:
   {
     cout << "Hello This is Colleague" << endl;
     if(_mediator != NULL)
-    {
-      _mediator -> colleagueChanged();
-    }
+      {
+        _mediator -> colleagueChanged();
+      }
     else
-    {
-      cout << "There is no mediator" << endl;
-    }
+      {
+        cout << "There is no mediator" << endl;
+      }
   }
 };
 
 class ConcreteMediator : Mediator
 {
 public:
-  virtual ~ConcreteMediator() { delete _colleague; }
+  virtual ~ConcreteMediator()
+  {
+    delete _colleague;
+  }
   void createColleague()
   {
     if(_colleague == NULL)
-    {
-      _colleague = new ConcreteColleague;
-      _colleague -> setMediator(this);
-    }
+      {
+        _colleague = new ConcreteColleague;
+        _colleague -> setMediator(this);
+      }
 
   }
   void colleagueChanged()
@@ -77,13 +83,13 @@ public:
   void zap()
   {
     if(_colleague != NULL)
-    {
-      _colleague->controlColleague();
-    }
+      {
+        _colleague->controlColleague();
+      }
     else
-    {
-      cout << "No colleague" << endl;
-    }
+      {
+        cout << "No colleague" << endl;
+      }
   }
 };
 

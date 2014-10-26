@@ -1,8 +1,10 @@
 /*
- * Prototype Pattern
+ * Composite Pattern
  * Author: Kei Nakata
  * Data: Oct.6.2014
- *
+ * Compose objects into tree structures to represent part-whole
+ * hierarchies. Composite lets clients treat individual objects
+ * and composition of objects unifomly.
  */
 #include <iostream>
 #include <cstring>
@@ -50,11 +52,7 @@ public:
   {
     static int index = 0;
     children.insert(pair<int, Component*>(index, child));
-    index++;
-  }
-  Component* getChild(int i)
-  {
-    return children[i];
+    ++index;
   }
 
   void remove(int index)
@@ -66,10 +64,10 @@ public:
   void show()
   {
     auto it = children.begin();
-    for(it = children.begin(); it != children.end(); it++)
-    {
-      it->second->show();
-    }
+    for(it = children.begin(); it != children.end(); ++it)
+      {
+        it->second->show();
+      }
   }
 
 };
