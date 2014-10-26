@@ -16,6 +16,8 @@ using std::endl;
 class ClassA
 {
 public:
+  ClassA() = default;
+  virtual ~ClassA() = default;
   void printA()
   {
     cout << "A" << endl;
@@ -25,6 +27,8 @@ public:
 class ClassB
 {
 public:
+  ClassB() = default;
+  virtual ~ClassB() = default;
   void printB()
   {
     cout << "B" << endl;
@@ -34,6 +38,8 @@ public:
 class ClassC
 {
 public:
+  ClassC() = default;
+  virtual ~ClassC() = default;
   void printC()
   {
     cout << "C" << endl;
@@ -46,10 +52,12 @@ public:
   ClassA a;
   ClassB b;
   ClassC c;
+  Facade() = default;
+  virtual ~Facade() = default;
   void execute()
   {
-    this->a.printA();
     this->b.printB();
+    this->a.printA();
     this->c.printC();
   }
 };
