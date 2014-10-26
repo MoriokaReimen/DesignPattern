@@ -17,13 +17,15 @@ class Command
 {
 public:
   Command() {}
-  virtual ~Command() {}
+  virtual ~Command() = default;
   virtual void execute() = 0;
 };
 
 class ConcreteCommand : public Command
 {
 public:
+    ConcreteCommand() = default;
+    ~ConcreteCommand() = default;
   void execute()
   {
     cout << "Hello" << endl;
@@ -34,6 +36,8 @@ class Invoker
 {
   list<Command*> _command_list;
 public:
+  Invoker() = default;
+  ~Invoker() = default;
   void execute()
   {
     while(!_command_list.empty())
