@@ -20,7 +20,7 @@ protected:
   string _name;
 public:
   Component(const string& name) : _name(name) {}
-  virtual ~Component() {}
+  virtual ~Component() = default;
   virtual void show() = 0;
 };
 
@@ -28,11 +28,10 @@ class Composite :public Component
 {
   map<int, Component*> children;
 public:
-  Composite(const string& name) : Component(name) {}
+  using Component::Component;
   ~Composite()
   {
-    map<int, Component*>::iterator it;
-    for(it = children.begin(); it != children.end(); it++)
+    for(auto it = children.begin(); it != children.end(); it++)
     {
       cout << "Des" << endl;
       delete it->second;
@@ -40,8 +39,7 @@ public:
   };
   void destroy()
   {
-    map<int, Component*>::iterator it;
-    for(it = children.begin(); it != children.end(); it++)
+    for(auto it = children.begin(); it != children.end(); it++)
     {
       cout << "Destroy" << endl;
       delete it->second;
@@ -61,13 +59,13 @@ public:
 
   void remove(int index)
   {
-    map<int, Component*>::iterator it = children.find(index);
+    auto it = children.find(index);
     children.erase(it);
   }
 
   void show()
   {
-    map<int, Component*>::iterator it = children.begin();
+    auto it = children.begin();
     for(it = children.begin(); it != children.end(); it++)
     {
       it->second->show();
@@ -79,7 +77,7 @@ public:
 class Leaf:public Component
 {
 public:
-  Leaf(const string& name) : Component(name) {}
+  using Component::Component;
   void show()
   {
     cout << this->_name << endl;
