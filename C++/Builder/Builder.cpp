@@ -8,34 +8,18 @@
  */
 #include <iostream>
 #include <cstdlib>
-#include <stack>
+#include <memory>
+#include <utility>
 using std::cout;
 using std::endl;
-using std::stack;
-
-template<typename T>
-class LifeTimeManager
-{
-  stack<T*> store;
-public:
-  void push(T* p)
-  {
-    store.push(p);
-  }
-  ~LifeTimeManager()
-  {
-    while(!store.empty())
-      {
-        if(store.top() != NULL)
-          delete store.top();
-        store.pop();
-      }
-  }
-};
+using std::unique_ptr;
+using std::move;
 
 class Product
 {
 public:
+    Product() = default;
+    ~Product() = default;
   void execute()
   {
     cout << "Hi" << endl;
@@ -44,30 +28,28 @@ public:
 
 class Builder
 {
-protected:
-  LifeTimeManager<Product> manager;
 public:
-  virtual ~Builder() {}
-  virtual Product* build() = 0;
+  Builder() = default;
+  virtual ~Builder() = default;
+  virtual unique_ptr<Product> build() = 0;
 };
 
 class ConcreteBuilder: public Builder
 {
 public:
-  Product* build()
+  ~ConcreteBuilder() = default;
+  unique_ptr<Product> build()
   {
-    Product *p = new Product;
-    manager.push(p);
-    return p;
+    unique_ptr<Product> p(new Product);
+    return move(p);
   }
-  ~ConcreteBuilder() {}
 };
 
 class Director
 {
   ConcreteBuilder builder;
 public:
-  Product* create()
+  unique_ptr<Product> create()
   {
     return builder.build();
   }
@@ -76,7 +58,7 @@ public:
 int main()
 {
   Director d;
-  Product* p = d.create();
+  auto p = d.create();
   p->execute();
   return EXIT_SUCCESS;
 }
