@@ -1,7 +1,7 @@
 all: Proxy.exe
 
 Proxy.o: Proxy.cpp
-	g++ -Wall -O2 -c Proxy.cpp
+	g++ -std=c++11 -Wall -O2 -c Proxy.cpp
 
 Proxy.exe: Proxy.o
 	g++ Proxy.o -o Proxy.exe

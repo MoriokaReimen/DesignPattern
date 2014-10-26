@@ -7,14 +7,16 @@
  */
 #include <iostream>
 #include <cstdlib>
+#include <memory>
 using std::cout;
 using std::endl;
+using std::unique_ptr;
 
 class Subject
 {
 public:
-  Subject() {};
-  virtual ~Subject() {}
+  Subject() = default;
+  virtual ~Subject() = default;
   virtual void Request() = 0;
 };
 
@@ -22,9 +24,9 @@ class ConcreteSubject : public Subject
 {
 protected:
   friend class Proxy;
-  ConcreteSubject() {}
+  ConcreteSubject() = default;
 public:
-  virtual ~ConcreteSubject() {}
+  virtual ~ConcreteSubject() = default;
   virtual void Request()
   {
     cout << "Hello World!!" << endl;
@@ -34,18 +36,14 @@ public:
 class Proxy : Subject
 {
 private:
-  ConcreteSubject* a;
+  unique_ptr<ConcreteSubject> a;
 public:
-  Proxy() : a() {}
-  virtual ~Proxy()
-  {
-    if(a)
-      delete a;
-  }
+  Proxy() = default;
+  virtual ~Proxy() = default;
 
   void Request()
   {
-    if(!a) a = new ConcreteSubject;
+    if(!a) a.reset(new ConcreteSubject);
     a->Request();
   }
 };
