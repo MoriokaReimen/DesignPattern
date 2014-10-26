@@ -18,17 +18,17 @@ class Singleton
 {
 
   static bool destroyed_; // flag for destruction detection
-
-  Singleton() {} //Prevent clients from creating a new singleton
-  Singleton(const Singleton& other) {} //Prevent Clients from creating
-  Singleton &operator=(const Singleton &rhs); //Prevent Clients from copy
+  Singleton() = default; //Prevent clients from creating a new singleton
   ~Singleton()
   {
-    destroyed_ = true;  // Prevent destruction
+    destroyed_ = true;  // Prevent double destruction
   }
 
   string msg_;
 public:
+  Singleton(const Singleton& other) = delete;//Prevent Clients from creating
+  Singleton &operator=(const Singleton &rhs) = delete; //Prevent Clients from copy
+
   static Singleton &getInstance()
   {
     static Singleton instance;
@@ -53,8 +53,8 @@ bool Singleton::destroyed_ = false; //Initialize flag
 
 int main()
 {
-  Singleton &i = Singleton::getInstance();
-  Singleton &j = Singleton::getInstance();
+  auto& i = Singleton::getInstance();
+  auto& j = Singleton::getInstance();
   i.setString("Hello");
   i.printString();
   j.setString("Bye");

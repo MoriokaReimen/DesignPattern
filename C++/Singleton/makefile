@@ -1,7 +1,7 @@
 all: Singleton.exe
 
 Singleton.o: Singleton.cpp
-	g++ -Wall -O2 -c Singleton.cpp
+	g++ -std=c++11 -Wall -O2 -c Singleton.cpp
 
 Singleton.exe: Singleton.o
 	g++ Singleton.o -o Singleton.exe
