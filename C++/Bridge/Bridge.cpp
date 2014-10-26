@@ -7,15 +7,18 @@
  */
 #include <iostream>
 #include <cstdlib>
+#include <memory>
 using std::cout;
 using std::endl;
 using std::string;
+using std::shared_ptr;
 
 class Implementor
 {
 public:
-  virtual ~Implementor() {}
-  virtual void operation() {}
+  Implementor() = default;
+  virtual ~Implementor() = default;
+  virtual void operation() = 0;
 };
 
 class ConcreteImplementorA : public Implementor
@@ -41,10 +44,10 @@ public:
 class Abstraction
 {
 protected:
-  Implementor *_imp;
+  shared_ptr<Implementor> _imp;
 public:
   virtual void operation() = 0;
-  virtual ~Abstraction() {}
+  virtual ~Abstraction() = default;
 };
 
 class RedefinedAbstraction : public Abstraction
@@ -54,20 +57,19 @@ public:
   RedefinedAbstraction(char ch)
   {
     if(ch == 'a')
-      _imp = new ConcreteImplementorA;
+      {
+        _imp.reset(new ConcreteImplementorA);
+      }
     else
       {
-        _imp = new ConcreteImplementorB;
-      }
+        _imp.reset(new ConcreteImplementorB);
   }
+      }
   void operation()
   {
     _imp -> operation();
   }
-  ~RedefinedAbstraction()
-  {
-    delete _imp;
-  }
+  ~RedefinedAbstraction() = default;
 };
 
 int main()
