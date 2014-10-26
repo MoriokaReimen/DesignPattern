@@ -1,7 +1,7 @@
 all: Flyweight.exe
 
 Flyweight.o: Flyweight.cpp
-	g++ -Wall -O2 -c Flyweight.cpp
+	g++ -std=c++11 -Wall -O2 -c Flyweight.cpp
 
 Flyweight.exe: Flyweight.o
 	g++ Flyweight.o -o Flyweight.exe
