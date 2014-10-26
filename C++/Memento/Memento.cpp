@@ -17,10 +17,10 @@ using std::stack;
 class Memento
 {
 private:
-  string _message;
+  string _message = "Hello";
 private:
   friend class Originator;
-  Memento(): _message("Hello") {}
+  Memento() = default;
   void setState(const string& message)
   {
     _message = message;
@@ -30,7 +30,7 @@ private:
     return _message;
   }
 public:
-  virtual ~Memento() {}
+  virtual ~Memento() = default;
 };
 
 class Originator
@@ -52,6 +52,8 @@ private:
     _message = _memento.getState();
   }
 public:
+  Originator() = default;
+  virtual ~Originator() = default;
   void setMessage(const string& message)
   {
     _message = message;
@@ -69,6 +71,7 @@ class Caretaker
   Originator* _originator;
 public:
   Caretaker(Originator* originator): _originator(originator) {}
+  virtual ~Caretaker() = default;
   void commit()
   {
     Memento buff = (_originator -> createMemento());
@@ -81,6 +84,7 @@ public:
     _originator -> setMemento(buff);
   }
 };
+
 int main()
 {
   Originator a;
