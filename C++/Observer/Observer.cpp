@@ -20,7 +20,8 @@ using std::type_info;
 class Observer
 {
 public:
-  virtual ~Observer() {}
+  Observer() = default;
+  virtual ~Observer() = default;
   virtual void update(const string& event) = 0;
 };
 
@@ -29,7 +30,8 @@ class Subject
 protected:
   set<Observer*> _observers;
 public:
-  virtual ~Subject() {}
+  Subject() = default;
+  virtual ~Subject() = default;
   virtual void addOberver(Observer* observer) = 0;
   virtual void notifyObserver() = 0;
 };
@@ -43,13 +45,15 @@ protected:
     cout << id.name() << " updated from " << event << endl;
   }
 public:
-  virtual ~ConcreteObserver() {}
+  ConcreteObserver() = default;
+  virtual ~ConcreteObserver() = default;
 };
 
 class ConcreteSubject : public Subject
 {
 public:
-  virtual ~ConcreteSubject() {}
+  ConcreteSubject() = default;
+  virtual ~ConcreteSubject() = default;
   virtual void addOberver(Observer* observer)
   {
     _observers.insert(observer);
