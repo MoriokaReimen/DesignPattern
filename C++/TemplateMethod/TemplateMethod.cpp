@@ -43,7 +43,6 @@ class NeatMessage:public AbstractMessage
   {
     cout << "Regards" << endl;
   }
-public:
 };
 
 
