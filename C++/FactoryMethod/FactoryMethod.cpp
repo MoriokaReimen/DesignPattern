@@ -16,8 +16,9 @@ using std::stack;
 class Product
 {
 public:
+  Product() = default;
   virtual void call() = 0;
-  virtual ~Product() {}
+  virtual ~Product() = default;
 };
 
 class Creator
@@ -25,12 +26,15 @@ class Creator
 public:
   virtual Product* create() = 0;
   virtual void factoryMethod() = 0;
-  virtual ~Creator() {}
+  Creator() = default;
+  virtual ~Creator() = default;
 };
 
 class ConcreteProduct: public Product
 {
 public:
+  ConcreteProduct() = default;
+  virtual ~ConcreteProduct() = default;
   void call()
   {
     cout << "Hi!" << endl;
@@ -42,11 +46,12 @@ class LifeTimeManager
 {
   stack<T*> store;
 public:
+  LifeTimeManager() = default;
   void push(T* p)
   {
     store.push(p);
   }
-  ~LifeTimeManager()
+  virtual ~LifeTimeManager()
   {
     while(!store.empty())
       {
@@ -59,11 +64,10 @@ public:
 
 class ConcreteCreator : public Creator
 {
-  int count;
+  int count = 0;
   LifeTimeManager<Product> manager;
 public:
-  ConcreteCreator() : count(0)
-  {}
+  ConcreteCreator() = default;
 
   Product* create()
   {
