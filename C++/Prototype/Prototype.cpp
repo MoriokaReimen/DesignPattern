@@ -7,52 +7,31 @@
  */
 #include <iostream>
 #include <cstdlib>
-#include <stack>
+#include <memory>
 using std::cout;
 using std::endl;
-using std::stack;
+using std::shared_ptr;
 
-template<typename T>
-class LifeTimeManager
-{
-  stack<T*> store;
-public:
-  void push(T* p)
-  {
-    store.push(p);
-  }
-  ~LifeTimeManager()
-  {
-    while(!store.empty())
-      {
-        if(store.top() != NULL)
-          delete store.top();
-        store.pop();
-      }
-  }
-};
 class Prototype
 {
 public:
-  virtual Prototype* clone() = 0;
+  virtual shared_ptr<Prototype> clone() = 0;
   virtual void call() = 0;
   virtual ~Prototype() {}
 };
 
 class ConcretePrototype : public Prototype
 {
-  int num;
-  LifeTimeManager<Prototype> manager;
+  int num = 0;
 
 public:
-  ConcretePrototype(): num(0), manager() {}
-  ConcretePrototype(const ConcretePrototype& other) : num(other.num), manager()
+  ConcretePrototype() = default;
+  ConcretePrototype(const ConcretePrototype& other) : num(other.num)
   {
   }
-  Prototype* clone()
+  shared_ptr<Prototype> clone()
   {
-    Prototype* p = new ConcretePrototype(*this);
-    manager.push(p);
+    shared_ptr<Prototype> p(new ConcretePrototype(*this));
     return p;
   }
   void setNum(int n)
@@ -64,7 +43,7 @@ public:
     cout << "BauBau!!";
     cout << this->num << endl;
   }
-  virtual ~ConcretePrototype() {}
+  virtual ~ConcretePrototype() = default;
 };
 
 
@@ -73,7 +52,7 @@ int main()
   ConcretePrototype a;
   a.setNum(3);
   a.call();
-  Prototype *b = a.clone();
+  auto b = a.clone();
   b->call();
 
   return EXIT_SUCCESS;

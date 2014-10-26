@@ -1,7 +1,7 @@
 all: Prototype.exe
 
 Prototype.o: Prototype.cpp
-	g++ -Wall -O2 -c Prototype.cpp
+	g++ -std=c++11 -Wall -O2 -c Prototype.cpp
 
 Prototype.exe: Prototype.o
 	g++ Prototype.o -o Prototype.exe
