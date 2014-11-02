@@ -1,5 +1,5 @@
 Barrier.out : Barrier.o
-	g++ -std=c++11 Barrier.o -o Barrier.out
+	g++ -std=c++11 Barrier.o -lpthread -o Barrier.out
 
 Barrier.o : Barrier.cpp
 	g++ -c -std=c++11 Barrier.cpp
