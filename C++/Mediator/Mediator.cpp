@@ -9,8 +9,11 @@
  */
 #include <iostream>
 #include <cstdlib>
+#include <memory>
 using std::cout;
 using std::endl;
+using std::shared_ptr;
+using std::weak_ptr;
 class Colleague;
 class Mediator;
 class ConcreteMediator;
@@ -18,9 +21,9 @@ class ConcreteMediator;
 class Mediator
 {
 protected:
-  Colleague* _colleague;
+  shared_ptr<Colleague> colleague_;
 public:
-  virtual ~Mediator() {}
+  virtual ~Mediator() = default;
   virtual void createColleague() = 0;
   virtual void colleagueChanged() = 0;
 };
@@ -28,9 +31,9 @@ public:
 class Colleague
 {
 protected:
-  Mediator* _mediator;
+  Mediator* mediator_;
 public:
-  virtual ~Colleague() {}
+  virtual ~Colleague() = default;
   virtual void setMediator(Mediator* mediator) = 0;
   virtual void controlColleague() = 0;
 };
@@ -40,18 +43,18 @@ class ConcreteColleague : public Colleague
 private:
 
 public:
-  ConcreteColleague() {}
-  virtual ~ConcreteColleague() {}
-  void setMediator(Mediator* mediator)
+  ConcreteColleague() = default;
+  virtual ~ConcreteColleague() override = default;
+  void setMediator(Mediator* mediator) override
   {
-    _mediator = mediator;
+    mediator_ = mediator;
   }
-  void controlColleague()
+  void controlColleague() override
   {
     cout << "Hello This is Colleague" << endl;
-    if(_mediator != NULL)
+    if(mediator_ != nullptr)
       {
-        _mediator -> colleagueChanged();
+        mediator_ -> colleagueChanged();
       }
     else
       {
@@ -63,28 +66,25 @@ public:
 class ConcreteMediator : Mediator
 {
 public:
-  virtual ~ConcreteMediator()
+  virtual ~ConcreteMediator() override = default;
+  void createColleague() override
   {
-    delete _colleague;
-  }
-  void createColleague()
-  {
-    if(_colleague == NULL)
+    if(colleague_ == nullptr)
       {
-        _colleague = new ConcreteColleague;
-        _colleague -> setMediator(this);
+        colleague_.reset(new ConcreteColleague);
+        colleague_ -> setMediator(this);
       }
 
   }
-  void colleagueChanged()
+  void colleagueChanged() override
   {
     cout << "Hello I am mediator!!" << endl;
   }
   void zap()
   {
-    if(_colleague != NULL)
+    if(colleague_ != nullptr)
       {
-        _colleague->controlColleague();
+        colleague_ -> controlColleague();
       }
     else
       {
