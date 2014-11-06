@@ -7,6 +7,7 @@
  * extending functionality.
  */
 #include <iostream>
+#include <memory>
 #include <cstring>
 #include <cstdlib>
 #include <stack>
@@ -14,73 +15,53 @@ using std::cout;
 using std::endl;
 using std::string;
 using std::stack;
-
-template<typename T>
-class LifeTimeManager
-{
-  stack<T*> store;
-public:
-  void push(T* p)
-  {
-    store.push(p);
-  }
-  ~LifeTimeManager()
-  {
-    while(!store.empty())
-      {
-        if(store.top() != NULL)
-          delete store.top();
-        store.pop();
-      }
-  }
-};
+using std::shared_ptr;
+using std::move;
 
 class Component
 {
 public:
-  virtual ~Component() {}
-  virtual void operation() = 0;
+    virtual ~Component() = default;
+    virtual void operation() = 0;
 };
 
 class ConcreteComponet : public Component
 {
 public:
-  void operation()
-  {
-    cout << "I want to eat curry rice" << endl;
-  }
+    void operation() override {
+        cout << "I want to eat curry rice" << endl;
+    }
 };
 
 class Decorator : public Component
 {
 protected:
-  Component* _component;
+    shared_ptr<Component> component_;
 public:
-  Decorator(Component* component): _component(component) {}
-  virtual void operation() = 0;
+    Decorator(shared_ptr<Component>& component): component_ {component} {}
+    virtual ~Decorator() override = default;
+    virtual void operation() = 0;
 };
 
 class ConcreteDecorator : public Decorator
 {
 public:
-  ConcreteDecorator(Component* component): Decorator(component) {}
-  void operation()
-  {
-    _component->operation();
-    cout << "and nann!!" << endl;
-  }
+    using Decorator::Decorator;
+    virtual ~ConcreteDecorator() override = default;
+    void operation() override {
+        component_ -> operation();
+        cout << "and nann!!" << endl;
+    }
 };
 
 int main()
 {
-  LifeTimeManager<Component> manager;
-  ConcreteComponet* a = new ConcreteComponet;
-  manager.push(a);
-  ConcreteDecorator b(a);
-  cout << "A:" << endl;
-  a->operation();
-  cout << "B:" << endl;
-  b.operation();
+    shared_ptr<Component> a {new ConcreteComponet};
+    ConcreteDecorator b {a};
+    cout << "A:" << endl;
+    a->operation();
+    cout << "B:" << endl;
+    b.operation();
 
-  return EXIT_SUCCESS;
+    return EXIT_SUCCESS;
 }
